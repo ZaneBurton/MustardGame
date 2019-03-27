@@ -174,7 +174,7 @@ class GameScene: SKScene {
     
     // 5 - OK to add now - you've double checked position
     addChild(projectile)
-    
+    //This is for git
     // 6 - Get the direction of where to shoot
     let direction = offset.normalized()
     
