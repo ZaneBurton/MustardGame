@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		5C2901831F8F6DE700803663 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C2901821F8F6DE700803663 /* LaunchScreen.storyboard */; };
 		64002680224BCE7D00C827B3 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6400267F224BCE7D00C827B3 /* GameOverScene.swift */; };
+		64F22DA9225275E20086B483 /* mustardSound.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 64F22DA8225275E10086B483 /* mustardSound.mp3 */; };
 		AFD63F872036493600E08C66 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD63F862036493600E08C66 /* GameViewController.swift */; };
 		AFD63F892036497100E08C66 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFD63F882036497100E08C66 /* GameScene.swift */; };
 		AFD63F8F203649F800E08C66 /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = AFD63F8D203649F800E08C66 /* background-music-aac.caf */; };
@@ -21,6 +22,7 @@
 /* Begin PBXFileReference section */
 		5C2901821F8F6DE700803663 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NinjaAttack/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6400267F224BCE7D00C827B3 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		64F22DA8225275E10086B483 /* mustardSound.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = mustardSound.mp3; sourceTree = "<group>"; };
 		AFD63F862036493600E08C66 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = NinjaAttack/GameViewController.swift; sourceTree = "<group>"; };
 		AFD63F882036497100E08C66 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = GameScene.swift; path = NinjaAttack/GameScene.swift; sourceTree = "<group>"; };
 		AFD63F8D203649F800E08C66 /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
@@ -47,6 +49,7 @@
 			isa = PBXGroup;
 			children = (
 				AFD63F8D203649F800E08C66 /* background-music-aac.caf */,
+				64F22DA8225275E10086B483 /* mustardSound.mp3 */,
 				AFD63F8E203649F800E08C66 /* pew-pew-lei.caf */,
 			);
 			name = Sounds;
@@ -151,6 +154,7 @@
 				AFD63F8F203649F800E08C66 /* background-music-aac.caf in Resources */,
 				D2A5F20B1F4A9144005CD714 /* Assets.xcassets in Resources */,
 				5C2901831F8F6DE700803663 /* LaunchScreen.storyboard in Resources */,
+				64F22DA9225275E20086B483 /* mustardSound.mp3 in Resources */,
 				AFD63F90203649F800E08C66 /* pew-pew-lei.caf in Resources */,
 				D2A5F2091F4A9144005CD714 /* Main.storyboard in Resources */,
 			);

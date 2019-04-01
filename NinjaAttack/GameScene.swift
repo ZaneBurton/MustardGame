@@ -70,7 +70,7 @@ extension CGPoint {
 
 class GameScene: SKScene {
   // 1
-  let player = SKSpriteNode(imageNamed: "player")
+  let player = SKSpriteNode(imageNamed: "mustard")
   var monstersDestroyed = 0
 
   
@@ -109,7 +109,7 @@ class GameScene: SKScene {
   func addMonster() {
     
     // Create sprite
-    let monster = SKSpriteNode(imageNamed: "monster")
+    let monster = SKSpriteNode(imageNamed: "Hotdog")
     monster.physicsBody = SKPhysicsBody(rectangleOf: monster.size) // 1
     monster.physicsBody?.isDynamic = true // 2
     monster.physicsBody?.categoryBitMask = PhysicsCategory.monster // 3
@@ -118,7 +118,7 @@ class GameScene: SKScene {
 
     
     // Determine where to spawn the monster along the Y axis
-    let actualY = random(min: monster.size.height/2, max: size.height - monster.size.height/2)
+    let actualY = player.position.y//random(min: monster.size.height/2, max: size.height - monster.size.height/2)
     
     // Position the monster slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
@@ -142,7 +142,11 @@ class GameScene: SKScene {
       let gameOverScene = GameOverScene(size: self.size, won: false)
       self.view?.presentScene(gameOverScene, transition: reveal)
     }
-    monster.run(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
+    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
+      // Code you want to be delayed
+      monster.run(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
+    }
+   
 
   }
   
@@ -151,12 +155,14 @@ class GameScene: SKScene {
     guard let touch = touches.first else {
       return
     }
-    run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
+    
+    run(SKAction.playSoundFileNamed("mustardSound.mp3", waitForCompletion: false))
+    //run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
 
     let touchLocation = touch.location(in: self)
     
     // 2 - Set up initial location of projectile
-    let projectile = SKSpriteNode(imageNamed: "projectile")
+    let projectile = SKSpriteNode(imageNamed: "splatter")
     projectile.position = player.position
     projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
     projectile.physicsBody?.isDynamic = true
@@ -194,7 +200,7 @@ class GameScene: SKScene {
     projectile.removeFromParent()
     monster.removeFromParent()
     monstersDestroyed += 1
-    if monstersDestroyed > 30 {
+    if monstersDestroyed > 10 {
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
       let gameOverScene = GameOverScene(size: self.size, won: true)
       view?.presentScene(gameOverScene, transition: reveal)
