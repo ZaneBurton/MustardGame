@@ -32,6 +32,7 @@ struct PhysicsCategory {
   static let none      : UInt32 = 0
   static let all       : UInt32 = UInt32.max
   static let monster   : UInt32 = 0b1       // 1
+  static let ally      : UInt32 = 0b1
   static let projectile: UInt32 = 0b10      // 2
 }
 
@@ -72,7 +73,8 @@ class GameScene: SKScene {
   // 1
   let player = SKSpriteNode(imageNamed: "mustard")
   var monstersDestroyed = 0
-
+  var alliesDestroyed = 0
+  var monsterBaby = false
   
   override func didMove(to view: SKView) {
     // 2
@@ -88,9 +90,10 @@ class GameScene: SKScene {
     run(SKAction.repeatForever(
       SKAction.sequence([
         SKAction.run(addMonster),
-        SKAction.wait(forDuration: 1.0)
+        SKAction.wait(forDuration: 5.0)
         ])
     ))
+
     let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
     backgroundMusic.autoplayLooped = true
     addChild(backgroundMusic)
@@ -116,16 +119,26 @@ class GameScene: SKScene {
     monster.physicsBody?.contactTestBitMask = PhysicsCategory.projectile // 4
     monster.physicsBody?.collisionBitMask = PhysicsCategory.none // 5
 
+    let ally = SKSpriteNode(imageNamed: "taco1")
+    ally.physicsBody = SKPhysicsBody(rectangleOf: ally.size) // 1
+    ally.physicsBody?.isDynamic = true // 2
+    ally.physicsBody?.categoryBitMask = PhysicsCategory.ally // 3
+    ally.physicsBody?.contactTestBitMask = PhysicsCategory.projectile // 4
+    ally.physicsBody?.collisionBitMask = PhysicsCategory.none // 5
     
     // Determine where to spawn the monster along the Y axis
-    let actualY = player.position.y//random(min: monster.size.height/2, max: size.height - monster.size.height/2)
+    let actualY = random(min: monster.size.height/2, max: size.height - monster.size.height/2)
+  
+    
     
     // Position the monster slightly off-screen along the right edge,
     // and along a random position along the Y axis as calculated above
     monster.position = CGPoint(x: size.width + monster.size.width/2, y: actualY)
+    ally.position = CGPoint(x: 500, y: size.height)
     
     // Add the monster to the scene
     addChild(monster)
+    addChild(ally)
     
     
     
@@ -135,7 +148,11 @@ class GameScene: SKScene {
     // Create the actions
     let actionMove = SKAction.move(to: CGPoint(x: -monster.size.width/2, y: actualY),
                                    duration: TimeInterval(actualDuration))
+    let actionMove2 = SKAction.move(to: CGPoint(x: monster.size.width/2 , y: -actualY),
+                                    duration: TimeInterval(3.0))
     let actionMoveDone = SKAction.removeFromParent()
+    let actionMoveDone2 = SKAction.removeFromParent()
+    
     let loseAction = SKAction.run() { [weak self] in
       guard let `self` = self else { return }
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
@@ -145,9 +162,71 @@ class GameScene: SKScene {
     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { // Change `2.0` to the desired number of seconds.
       // Code you want to be delayed
       monster.run(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
+      ally.run(SKAction.sequence([actionMove2, actionMoveDone2]))
     }
+    
+    monsterBaby = false
    
 
+  }
+  
+  func addMonsterBabies () {
+    monsterBaby = true
+
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -200,12 +279,24 @@ class GameScene: SKScene {
     projectile.removeFromParent()
     monster.removeFromParent()
     monstersDestroyed += 1
-    if monstersDestroyed > 10 {
+    
+    if monstersDestroyed > 2 {
+      addMonsterBabies()
+    }
+    
+    if monstersDestroyed > 40 {
       let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
       let gameOverScene = GameOverScene(size: self.size, won: true)
       view?.presentScene(gameOverScene, transition: reveal)
     }
 
+  }
+  func projectileDidCollideWithAlly(projectile: SKSpriteNode, ally: SKSpriteNode) {
+    projectile.removeFromParent()
+    ally.removeFromParent()
+    let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+    let gameOverScene = GameOverScene(size: self.size, won: false)
+    view?.presentScene(gameOverScene, transition: reveal)
   }
 
   
@@ -224,6 +315,7 @@ extension GameScene: SKPhysicsContactDelegate {
     } else {
       firstBody = contact.bodyB
       secondBody = contact.bodyA
+      
     }
     
     // 2
@@ -234,6 +326,7 @@ extension GameScene: SKPhysicsContactDelegate {
         projectileDidCollideWithMonster(projectile: projectile, monster: monster)
       }
     }
+  
   }
 
   
