@@ -172,7 +172,15 @@ class GameScene: SKScene {
   
   func addMonsterBabies () {
     monsterBaby = true
-
+    for _ in 1...20 {
+      run(SKAction.repeatForever(
+        SKAction.sequence([
+          SKAction.run(addMonster),
+          SKAction.wait(forDuration: 0.5)
+          ])
+      ))
+    }
+/*
     run(SKAction.repeatForever(
       SKAction.sequence([
         SKAction.run(addMonster),
@@ -227,6 +235,61 @@ class GameScene: SKScene {
         SKAction.wait(forDuration: 1.0)
         ])
     ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+    run(SKAction.repeatForever(
+      SKAction.sequence([
+        SKAction.run(addMonster),
+        SKAction.wait(forDuration: 1.0)
+        ])
+    ))
+ */
   }
   
   override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
